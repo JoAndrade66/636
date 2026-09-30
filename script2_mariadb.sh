@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-PASS="RootPassword123!"
+PASS="atec123"
 
 
 mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$PASS';"
