@@ -11,7 +11,7 @@ DATA=$(date +%Y%m%d_%H%M)
 tar -czf "/backups/site_$DATA.tar.gz" -C /var/www html
 
 # 4. Backup e compressao das bases de dados MariaDB
-mysqldump --all-databases -u root -p"RootPassword123!" | gzip > "/backups/db_$DATA.sql.gz"
+mysqldump --all-databases -u root -p"atec123" | gzip > "/backups/db_$DATA.sql.gz"
 
 echo "Backups criados com sucesso em /backups:"
 ls -lh /backups
