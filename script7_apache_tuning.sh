@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 1. Configurar KeepAlive, mod_deflate e limites
+# 1. Configurar KeepAlive, mod_deflate e limites de ligacoes
 cat <<EOF > /etc/httpd/conf.d/tuning.conf
 KeepAlive On
 KeepAliveTimeout 5
@@ -15,21 +15,15 @@ Timeout 60
 </IfModule>
 EOF
 
-# 2. Instalar Certbot para Let's Encrypt e modulo SSL
-dnf install -y mod_ssl certbot python3-certbot-apache
+# 2. Instalar modulo SSL e utilitarios necessarios
+dnf install -y mod_ssl openssl
 
-# 3. Configurar SSL (Tenta Let's Encrypt se houver dominio, senao gera certificado autoassinado para testes)
-DOMINIO="" # Insira o dominio publico se existir
+# 3. Gerar certificado SSL para teste
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/pki/tls/private/localhost.key \
+  -out /etc/pki/tls/certs/localhost.crt \
+  -subj "/C=PT/CN=localhost"
 
-if [ -n "$DOMINIO" ]; then
-    certbot --apache -d "$DOMINIO" --non-interactive --agree-tos -m root@localhost
-else
-    echo "A gerar certificado SSL de teste..."
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-      -keyout /etc/pki/tls/private/localhost.key \
-      -out /etc/pki/tls/certs/localhost.crt \
-      -subj "/C=PT/CN=localhost"
-fi
-
+# 4. Reiniciar o Apache para abrir a porta 443
 systemctl restart httpd
-echo "Apache otimizado e SSL ativo."
+echo "Apache otimizado e HTTPS (porta 443) ativo com sucesso."
