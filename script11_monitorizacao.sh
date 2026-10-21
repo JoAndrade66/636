@@ -13,7 +13,7 @@ echo "=== Tentativas de Falha SSH ==="
 grep "Failed password" /var/log/secure | tail -n 10 2>/dev/null
 
 # 3. Alerta por email se existirem falhas
-FALHAS=$(grep -c "Failed password" /var/log/secure 2>/dev/null || echo 0)
+FALHAS=$(grep -i "Failed password" /var/log/secure 2>/dev/null | wc -l)
 
 if [ "$FALHAS" -gt 5 ]; then
     echo "Alerta: $FALHAS falhas de login detetadas no servidor." | mail -s "Alerta de Seguranca" root@localhost 2>/dev/null || echo "Falhas encontradas no /var/log/secure: $FALHAS"
