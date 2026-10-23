@@ -19,7 +19,7 @@ echo "A executar Script 4 (SELinux)..."
 ./script4_selinux.sh
 
 echo "A executar Script 5 (Fail2ban)..."
-./script5_fail2Ban.sh
+./script5_fail2ban.sh
 
 echo "A executar Script 6 (Mod_Security)..."
 ./script6_modsecurity.sh
